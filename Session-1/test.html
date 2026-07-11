@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        const user = {
+            name: 'Ali',
+            family: 'Alavi',
+            age: 28,
+            address: {
+                street: '1st Street',
+                tel: '111111111'
+            }
+        }
+
+        const { name } = user;
+        console.info(name)
+
+
+        const address = user.address.street
+        console.log(address)
+
+        const { address: {street} } = user;
+        console.log(address);
+
+
+
+        const { family: renamedFamily } = user; // === const renamedFamily = 
+        console.log(renamedFamily)
+
+
+    </script>
+
+</body>
+
+</html>
