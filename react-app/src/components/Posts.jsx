@@ -1,7 +1,20 @@
+import { useEffect } from "react"
 import { generateImageSrc } from "../helpers/generateImageSrc"
 import Card from "./Card"
 
 const Posts = () => {
+
+  useEffect(() => {
+    // when component mount
+    console.log('Posts component Mounted');
+
+    return() => {
+      // when component unmount
+      console.log('Posts component Unmounted')
+    }
+  }, []);
+
+
 
   const posts = [
     {
