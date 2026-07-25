@@ -1,23 +1,37 @@
-const Button = ({ text, type, color, onClick }) => {
+const Button = ({ type, text, color = 'gray', size = 'md', className, onClick }) => {
 
-  let btnColor = '';
+  let colorClass = '';
+  let sizeClass = '';
+
   switch (color) {
-    case 'gray': btnColor = 'bg-gray-500';
+    case 'green': colorClass = 'bg-green-500 text-white hover:bg-green-700'
       break;
-    case 'green': btnColor = 'bg-green-500';
+    case 'red': colorClass = 'bg-red-500 text-white hover:bg-red-700'
       break;
-    case 'red': btnColor = 'bg-red-500';
+    case 'blue': colorClass = 'bg-blue-500 text-white hover:bg-blue-700'
       break;
-    case 'orange': btnColor = 'bg-orange-500';
-      break;
-    case 'black': btnColor = 'bg-stone-950';
-      break;
-    case 'white': btnColor = 'bg-white text-black!';
+    case 'gray': colorClass = 'bg-gray-500 text-white hover:bg-gray-700'
       break;
   }
 
+  switch (size) {
+    case 'lg': sizeClass = 'rounded-lg py-2 px-3 text-xl';
+      break;
+    case 'md': sizeClass = 'rounded-md py-1 px-2 text-base';
+      break;
+    case 'sm': sizeClass = 'rounded-sm py-1 px-1.5 text-sm';
+      break;
+
+  }
+
   return (
-    <button type={type} className={`py-1 px-2 rounded-md cursor-pointer text-white transition-all hover:opacity-70 ${btnColor}`} onClick={onClick}>{text}</button>
+    <button
+      type={type}
+      className={`cursor-pointer transition-all ${colorClass} ${sizeClass} ${className}`}
+      onClick={onClick}
+      >
+      {text}
+    </button>
   )
 }
 

@@ -7,7 +7,7 @@ const Posts = () => {
     {
       id: 1,
       title: 'Post title 1',
-      body: 'Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1',
+      body: 'Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1 Post Body 1',
       image: generateImageSrc({ width: 600, height: 400, bg: 'green', color: 'white', text: 'Post 1 Image' })
     },
     {
@@ -33,7 +33,7 @@ const Posts = () => {
   return (
     <section className='grid grid-cols-4 gap-4'>
       {
-        posts.map((post, index) => {
+        posts.map((post) => {
           return (
             <Card key={post.id} title={post.title} desc={post.body} image={post.image} />
           )
