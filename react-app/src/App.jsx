@@ -1,44 +1,56 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import Posts from './components/Posts'
-import Button from "./components/Button"
+import { useEffect, useState } from 'react';
+import './App.css';
+import Loading from './components/Loading';
 
 function App() {
 
-  const [text, setText] = useState('')
-  const [count, setCount] = useState(0);
-  const [show, setShow] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+
+  const getUsers = () => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        console.log(data);
+        setUsers(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false);
+      })
+  }
+
 
   useEffect(() => {
-    // this console will show after each render
-    console.log(text);
-  });
-
-  useEffect(() => {
-    // this console will show when the component is render
-    document.title = 'Home';
+    getUsers();
   }, [])
 
-  useEffect(() => {
-    // with a state dependency
-    console.log('count', count)
-  }, [count])
 
   return (
     <main className='bg-slate-900 text-gray-200 min-h-screen p-8'>
 
-      <input type="text" placeholder='Type here...' className='border border-gray-300' onChange={(e) => setText(e.target.value)} /> {text}
+      {
+        isLoading ?
+          <Loading />
+          :
+          <ul className='divide-y divide-gray-300 max-w-[300px]'>
+            {
+              users.map((user) => {
+                return (
+                  <li key={user.id} className='py-2 hover:bg-gray-800'>
+                    <p className='text-lg'>{user.name}</p>
+                    <span className='text-base text-gray-500'>{user.email}</span>
+                  </li>
+                )
+              })
+            }
+          </ul>
+      }
 
-      <br />
-      <br />
-
-      <Button text="Add Count" onClick={() => setCount(count + 1)}></Button> {count}
-
-
-      {show && <Posts />}
-
-<br />
-      <Button text="Toggle posts" className="my-4" onClick={() => setShow(!show)}></Button>
 
     </main>
   )
