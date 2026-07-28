@@ -25,8 +25,7 @@ function App() {
   }, [count])
 
   return (
-    <main className='bg-slate-900 text-gray-200 h-screen p-8'>
-
+    <main className='bg-slate-900 text-gray-200 min-h-screen p-8'>
 
       <input type="text" placeholder='Type here...' className='border border-gray-300' onChange={(e) => setText(e.target.value)} /> {text}
 

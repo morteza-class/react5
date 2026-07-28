@@ -1,4 +1,6 @@
-const Button = ({ type, text, color = 'gray', size = 'md', className, onClick }) => {
+import { LoaderCircle } from 'lucide-react';
+
+const Button = ({ type, text, color = 'gray', size = 'md', className = '', icon, isLoading = false, isDisabled = false, onClick }) => {
 
   let colorClass = '';
   let sizeClass = '';
@@ -27,9 +29,12 @@ const Button = ({ type, text, color = 'gray', size = 'md', className, onClick })
   return (
     <button
       type={type}
-      className={`cursor-pointer transition-all ${colorClass} ${sizeClass} ${className}`}
+      className={`cursor-pointer transition-all flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed! ${colorClass} ${sizeClass} ${className}`}
       onClick={onClick}
-      >
+      disabled={isLoading || isDisabled ? true : false}
+    >
+      {!isLoading && icon ? icon : null}
+      {isLoading ? <LoaderCircle size={18} className='animate-spin' /> : undefined }
       {text}
     </button>
   )
