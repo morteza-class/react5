@@ -1,6 +1,17 @@
 import { LoaderCircle } from 'lucide-react';
 
-const Button = ({ type, text, color = 'gray', size = 'md', className = '', icon, isLoading = false, isDisabled = false, onClick }) => {
+const Button = ({
+  type,
+  text,
+  color = 'gray',
+  size = 'md',
+  className = '',
+  icon,
+  justIcon = false,
+  isLoading = false,
+  isDisabled = false,
+  onClick
+}) => {
 
   let colorClass = '';
   let sizeClass = '';
@@ -17,13 +28,12 @@ const Button = ({ type, text, color = 'gray', size = 'md', className = '', icon,
   }
 
   switch (size) {
-    case 'lg': sizeClass = 'rounded-lg py-2 px-3 text-xl';
+    case 'lg': sizeClass = `rounded-lg py-2 px-3 text-xl ${justIcon ? 'w-10 h-10 p-0' : ''}`;
       break;
-    case 'md': sizeClass = 'rounded-md py-1 px-2 text-base';
+    case 'md': sizeClass = `rounded-md py-1 px-2 text-base ${justIcon ? 'w-8 h-8 p-0' : ''}`;
       break;
-    case 'sm': sizeClass = 'rounded-sm py-1 px-1.5 text-sm';
+    case 'sm': sizeClass = `rounded-sm py-1 px-1.5 text-sm ${justIcon ? 'w-6 h-6 p-0' : ''}`;
       break;
-
   }
 
   return (
@@ -34,7 +44,7 @@ const Button = ({ type, text, color = 'gray', size = 'md', className = '', icon,
       disabled={isLoading || isDisabled ? true : false}
     >
       {!isLoading && icon ? icon : null}
-      {isLoading ? <LoaderCircle size={18} className='animate-spin' /> : undefined }
+      {isLoading ? <LoaderCircle size={18} className='animate-spin' /> : undefined}
       {text}
     </button>
   )
