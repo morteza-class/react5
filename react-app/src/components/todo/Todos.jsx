@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import Button from '../Button';
 import Loading from '../Loading';
 import TodoItem from './TodoItem';
@@ -61,7 +62,7 @@ const Todos = () => {
         const newItems = [...todos, formData];
         setTodos(newItems);
         setFormData(initialFormData);
-        alert('Todo added successfully!');
+        toast.success('Todo added successfully!')
       })
       .catch((error) => {
         console.error(error);
@@ -108,63 +109,24 @@ const Todos = () => {
         const newItems = todos.map((todo) => (todo.id === editingId ? { ...todo, ...formData } : todo));
         setTodos(newItems);
         setFormData(initialFormData);
-        alert('Todo edited successfully!');
+        toast.success('Todo edited successfully!')
       })
       .catch((error) => {
         console.error(error);
       })
       .finally(() => {
         setFormLoading(false);
+        setFormData(initialFormData);
+        setEditingId(null);
       })
 
   } // handleUpdate
 
-  const handleChangeStatus = (id, completed) => {
-
-    fetch(`https://dummyjson.com/todos/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify({
-        completed: completed
-      })
-    })
-      .then(res => res.json())
-      .then((data) => {
-        const newItems = todos.map((todo) => (todo.id === id ? { ...todo, completed } : todo));
-        setTodos(newItems);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        setFormLoading(false);
-      })
-
-  } // handleChangeStatus
-
-  const handleDelete = (id) => {
-
-    if (!window.confirm('Are you sure you want to delete this todo?')) {
-      return;
-    }
-
-    fetch(`https://dummyjson.com/todos/${id}`, {
-      method: 'DELETE'
-    })
-      .then(() => {
-        const newItems = todos.filter((todo) => todo.id !== id);
-        setTodos(newItems);
-        alert('Todo deleted successfully!');
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        // setFormLoading(false);
-      })
+  const afterDelete = (id) => {
+    const newItems = todos.filter((todo) => todo.id !== id);
+    setTodos(newItems);
   }
+
 
   return (
     <section className='grid grid-cols-2 justify-between gap-8'>
@@ -217,9 +179,9 @@ const Todos = () => {
                   return (
                     <TodoItem
                       item={item}
-                      handleChangeStatus={handleChangeStatus}
+                      getTodos={getTodos}
                       prepareToUpdate={prepareToUpdate}
-                      handleDelete={handleDelete}
+                      afterDelete={afterDelete}
                     />
                   )
                 })
