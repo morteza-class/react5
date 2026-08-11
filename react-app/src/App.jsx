@@ -1,58 +1,24 @@
-import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import './App.css';
-import Loading from './components/Loading';
+import AppRoutes from './routing/Routes';
 
 function App() {
-
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-
-  const getUsers = () => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then((response) => {
-        return response.json()
-      })
-      .then((data) => {
-        console.log(data);
-        setUsers(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setIsLoading(false);
-      })
-  }
-
-
-  useEffect(() => {
-    getUsers();
-  }, [])
-
-
   return (
-    <main className='bg-slate-900 text-gray-200 min-h-screen p-8'>
-
-      {
-        isLoading ?
-          <Loading />
-          :
-          <ul className='divide-y divide-gray-300 max-w-[300px]'>
-            {
-              users.map((user) => {
-                return (
-                  <li key={user.id} className='py-2 hover:bg-gray-800'>
-                    <p className='text-lg'>{user.name}</p>
-                    <span className='text-base text-gray-500'>{user.email}</span>
-                  </li>
-                )
-              })
-            }
+    <div className='bg-slate-900 text-gray-200 min-h-screen'>
+      <header className='bg-slate-700 px-8 py-4 '>
+        <nav>
+          <ul className='flex gap-6 text-lg'>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/about-us">About Us</Link></li>
+            <li><Link to="/users">Users</Link></li>
+            <li><Link to="/posts">Posts</Link></li>
           </ul>
-      }
-
-
-    </main>
+        </nav>
+      </header>
+      <main className='h-full p-8'>
+        <AppRoutes />
+      </main>
+    </div>
   )
 }
 
