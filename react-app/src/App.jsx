@@ -1,24 +1,14 @@
-import { Route, Routes } from "react-router";
 import './App.css';
-import AboutUs from "./pages/about-us";
-import Home from "./pages/home";
+import Header from "./components/Header";
+import AppRoutes from './routing/Routes';
 
 
 function App() {
   return (
     <>
-      <header>
-        <nav>
-          <ul>
-            <li></li>
-          </ul>
-        </nav>
-      </header>
-      <main className='bg-slate-900 text-gray-200 min-h-screen p-8'>
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/about-us" element={<AboutUs />} />
-        </Routes>
+      <Header />
+      <main className='bg-slate-900 text-gray-200 min-h-screen p-8 pt-20'>
+        <AppRoutes />
       </main>
     </>
   )

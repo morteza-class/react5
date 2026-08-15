@@ -1,7 +1,7 @@
 import { LucideCheckCircle, LucidePencil, LucideTrash, LucideUndo } from "lucide-react";
 import { useState } from "react";
-import { BASE_URL } from "../constants";
-import Button from "./Button";
+import { BASE_URL } from "../../../constants";
+import Button from "../../../components/Button";
 
 const TodoItem = ({ todo, prepareToEdit, afterDelete }) => {
 

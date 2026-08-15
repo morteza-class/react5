@@ -1,9 +1,10 @@
 import { LucideCheckCircle, LucidePlusCircle, LucideX } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { BASE_URL } from '../constants';
-import Button from "./Button";
-import Loading from './Loading';
-import TodoItem from './TodoItem';
+
+import TodoItem from './components/TodoItem';
+import { BASE_URL } from '../../constants';
+import Button from '../../components/Button';
+import Loading from '../../components/Loading';
 
 const Todos = () => {
 
