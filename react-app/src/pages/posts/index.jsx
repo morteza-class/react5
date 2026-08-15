@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import Loading from "../../components/Loading";
+import { Link } from "react-router";
 import Button from "../../components/Button";
+import Loading from "../../components/Loading";
+import PageHeader from "../../components/PageHeader";
 
 const Posts = () => {
 
@@ -29,8 +31,7 @@ const Posts = () => {
 
   return (
     <>
-      <h1>Posts</h1>
-
+      <PageHeader text="Posts" showBack={false} />
       {
         isLoading ?
           <Loading />
@@ -57,7 +58,9 @@ const Posts = () => {
                         <td className="p-2">{post.body}</td>
                         <td className="p-2">
                           <div className="flex">
-                            <Button text="Details" size="sm" color="blue" />
+                            <Link to={`/posts/${post.id}`}>
+                              <Button text="Details" size="sm" color="blue" />
+                            </Link>
                           </div>
                         </td>
                       </tr>
