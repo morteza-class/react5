@@ -31,7 +31,7 @@ const PostDetails = () => {
 
   return (
     <section>
-      <PageHeader text="Post Details" />
+      <PageHeader text="Post Details" showBack />
       {
         isLoading ?
           <Loading />

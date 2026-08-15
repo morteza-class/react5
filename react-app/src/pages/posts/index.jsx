@@ -36,7 +36,7 @@ const Posts = () => {
         isLoading ?
           <Loading />
           :
-          <div className="border border-gray-600 max-h-[80vh] overflow-auto">
+          <div className="border border-gray-600 max-h-[75vh] overflow-auto">
             <table>
               <thead className="bg-slate-700 border-b-2 border-gray-600 sticky -top-1">
                 <tr>

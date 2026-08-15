@@ -3,7 +3,7 @@ import Typography from "./Typography"
 import Button from "./Button"
 import { LucideArrowLeft } from "lucide-react"
 
-const PageHeader = ({ text, showBack = true }) => {
+const PageHeader = ({ text, showBack = false }) => {
 
   const navigate = useNavigate();
   const back = () => {

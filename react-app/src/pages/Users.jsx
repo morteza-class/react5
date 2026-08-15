@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import Loading from "../components/Loading"
+import Loading from "../components/Loading";
+import PageHeader from "../components/PageHeader";
 
 const Users = () => {
 
@@ -28,7 +29,7 @@ const Users = () => {
 
   return (
     <>
-      <h1>Users</h1>
+      <PageHeader text="Users" />
 
       {
         isLoading ?

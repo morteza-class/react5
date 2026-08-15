@@ -1,6 +1,8 @@
+import PageHeader from "../components/PageHeader";
+
 const AboutUs = () => {
   return (
-    <h1>About Us</h1>
+    <PageHeader text="About Us" />
   )
 }
 
