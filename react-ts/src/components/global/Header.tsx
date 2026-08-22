@@ -1,0 +1,65 @@
+import { LucideLogOut, LucideUser2 } from "lucide-react";
+import { useEffect, useState } from "react"
+import { NavLink, useNavigate } from "react-router"
+import type { User } from "../../types/user";
+
+
+const Header = () => {
+
+	const navigate = useNavigate();
+	const [user, setUser] = useState<User | null>(null);
+
+	const links = [
+		{ title: 'Home', link: '/home' },
+		{ title: 'About Us', link: '/about-us' },
+		{ title: 'Contact Us', link: '/contact-us' },
+		{ title: 'Todo List', link: '/todo-list' },
+		{ title: 'Posts', link: '/posts' },
+	]
+
+	useEffect(() => {
+		const userData = sessionStorage.getItem('userInfo');
+
+		if (!userData) {
+			navigate('/login')
+		} else {
+			setUser(JSON.parse(userData))
+		}
+	}, [])
+
+	const logout = () => {
+		sessionStorage.removeItem('userInfo');
+		navigate('/login')
+	}
+
+	return (
+		<header className="bg-slate-800 p-4 fixed top-0 right-0 left-0">
+			<nav className="flex justify-between px-4">
+				<ul className="flex justify-center gap-12">
+					{
+						links.map((item, index) => {
+							return (
+								<li key={index}>
+									<NavLink
+										to={item.link}
+										className={({ isActive }) => `text-xl text-gray-400 hover:text-gray-300 ${isActive ? 'text-blue-500!' : ''}`}
+									>
+										{item.title}
+									</NavLink>
+								</li>
+							)
+						})
+					}
+
+				</ul>
+				<div className="flex gap-2 items-center text-white">
+					<LucideUser2 />
+					{user?.name + ' ' + user?.family}
+					<LucideLogOut className="text-red-500 cursor-pointer" size={18} onClick={logout} />
+				</div>
+			</nav>
+		</header>
+	)
+}
+
+export default Header
