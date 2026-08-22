@@ -3,7 +3,7 @@ import type { FC, ReactElement } from "react";
 type PropTypes = {
   element?: HTMLElement | any,
   className?: string,
-  children: ReactElement
+  children: ReactElement | string
 };
 
 const DsTypography: FC<PropTypes> = ({ element, className, children }) => {
