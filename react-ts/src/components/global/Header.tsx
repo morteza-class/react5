@@ -54,7 +54,7 @@ const Header = () => {
 				</ul>
 				<div className="flex gap-2 items-center text-white">
 					<LucideUser2 />
-					{user?.name + ' ' + user?.family}
+					{user?.firstName + ' ' + user?.lastName}
 					<LucideLogOut className="text-red-500 cursor-pointer" size={18} onClick={logout} />
 				</div>
 			</nav>

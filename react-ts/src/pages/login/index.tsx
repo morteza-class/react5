@@ -1,33 +1,91 @@
+import { useState, type SubmitEvent } from "react"
 import { Link, useNavigate } from "react-router"
 import DsButton from "../../components/design-system/DsButton"
 import PageHeader from "../../components/global/PageHeader"
 import PagesLayout from "../../components/global/PagesLayout"
-import type { User } from "../../types/user"
+import { DUMMY_BASE_URL } from "../../constants"
+
+type FormData = {
+    username: string
+    password: string
+}
+
+const initalData: FormData = {
+    username: '',
+    password: ''
+}
 
 const Login = () => {
 
+    const [formData, setFormData] = useState<FormData>(initalData);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const user: User = {
-        name: 'Ali',
-        family: "Alavi",
-        mobile: '09121114422'
-    }
+    const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
 
-    const loginHandler = () => {
-        sessionStorage.setItem('userInfo', JSON.stringify(user));
-        navigate('/app/home')
+        e.preventDefault();
+
+        setLoading(true);
+        fetch(`${DUMMY_BASE_URL}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+            .then(res => res.json())
+            .then((data) => {
+                console.log(data);
+                sessionStorage.setItem('userInfo', JSON.stringify(data));
+                navigate('/app/home')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+
     }
 
     return (
         <PagesLayout>
             <PageHeader text="Login Page" />
-            <div className="flex gap-4">
-                <DsButton color="blue" size="lg" text="Login To App" onClick={loginHandler} />
-                <Link to="/recover-password">
-                    <DsButton color="gray" size="lg" text="Recover Pasword" />
-                </Link>
-            </div>
+
+            <form className="bg-slate-800 p-8 rounded-lg mx-auto w-1/3" onSubmit={(e) => handleSubmit(e)}>
+                <div className='mb-4'>
+                    <label className='text-lg mb-1'>Username</label>
+                    <input
+                        type="text"
+                        placeholder='Enter Todo Username'
+                        className='w-full border border-gray-400 bg-gray-800 px-3 py-2 text-lg rounded-md'
+                        value={formData.username}
+                        onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                        required
+                    />
+                </div>
+
+                <div className='mb-4'>
+                    <label className='text-lg mb-1'>Passweord</label>
+                    <input
+                        type="password"
+                        placeholder='Enter Passweord'
+                        className='w-full border border-gray-400 bg-gray-800 px-3 py-2 text-lg rounded-md'
+                        value={formData.password}
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        required
+                    />
+                </div>
+
+                <div className="flex gap-4 mt-6">
+                    <DsButton type="submit" color="blue" size="lg" text="Login To App" isLoading={loading} />
+                    <Link to="/recover-password">
+                        <DsButton color="gray" size="lg" text="Recover Pasword" isDisabled={loading} />
+                    </Link>
+                </div>
+
+
+            </form>
+
+
         </PagesLayout>
     )
 }

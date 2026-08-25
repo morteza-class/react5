@@ -1,5 +1,10 @@
 export type User = {
-	name: string,
-	family: string,
-	mobile: string
+	"id": number,
+	"username": string
+	"email": string
+	"firstName": string
+	"lastName": string
+	"gender": string
+	"image": string
+	"accessToken": string
 }
