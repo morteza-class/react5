@@ -1,10 +1,10 @@
-import { useState, type SubmitEvent } from "react"
+import { useEffect, useState, type SubmitEvent } from "react"
 import { Link, useNavigate } from "react-router"
 import DsButton from "../../components/design-system/DsButton"
 import PageHeader from "../../components/global/PageHeader"
 import PagesLayout from "../../components/global/PagesLayout"
 import { DUMMY_BASE_URL } from "../../constants"
-import type { User } from "../../types/user"
+import type { LoginResponse } from "../../types/user"
 
 type FormData = {
     username: string;
@@ -36,8 +36,9 @@ const Login = () => {
             })
         })
             .then(res => res.json())
-            .then((data) => {
-                sessionStorage.setItem('userInfo', JSON.stringify(data));
+            .then((data: LoginResponse) => {
+                // sessionStorage.setItem('userInfo', JSON.stringify(data));
+                sessionStorage.setItem('token', data.accessToken); // method 2
                 navigate('/app/home')
             })
             .catch((err) => {
@@ -47,6 +48,12 @@ const Login = () => {
                 setIsLoading(false)
             })
     } // handleSubmit
+
+    useEffect(() => {
+        if (sessionStorage.getItem('userInfo')) {
+            navigate('/app/home')
+        }
+    }, [])
 
     return (
         <PagesLayout>

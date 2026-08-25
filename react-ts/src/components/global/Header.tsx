@@ -1,13 +1,14 @@
 import { LucideLogOut, LucideUser2 } from "lucide-react";
-import { useEffect, useState } from "react"
-import { NavLink, useNavigate } from "react-router"
-import type { User } from "../../types/user";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router";
+import { DUMMY_BASE_URL } from "../../constants";
+import type { MeResponse } from "../../types/user";
 
 
 const Header = () => {
 
 	const navigate = useNavigate();
-	const [user, setUser] = useState<User | null>(null);
+	const [user, setUser] = useState<MeResponse | null>(null);
 
 	const links = [
 		{ title: 'Home', link: '/app/home' },
@@ -17,7 +18,8 @@ const Header = () => {
 		{ title: 'Posts', link: '/app/posts' },
 	]
 
-	useEffect(() => {
+	// method 1
+	/* useEffect(() => {
 		const userData = sessionStorage.getItem('userInfo');
 
 		if (!userData) {
@@ -25,10 +27,32 @@ const Header = () => {
 		} else {
 			setUser(JSON.parse(userData))
 		}
+	}, []) */
+
+
+	// method 2
+	useEffect(() => {
+
+		if (!sessionStorage.getItem('token')) {
+			navigate('/login');
+			return
+		}
+
+		fetch(`${DUMMY_BASE_URL}/auth/me`, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+			}
+		})
+			.then(res => res.json())
+			.then((data: MeResponse) => {
+				setUser(data)
+			});
 	}, [])
 
 	const logout = () => {
-		sessionStorage.removeItem('userInfo');
+		// sessionStorage.removeItem('userInfo'); // method 1
+		sessionStorage.removeItem('token'); // method 2
 		navigate('/login')
 	}
 
