@@ -1,9 +1,11 @@
-import { useState, type SubmitEvent } from "react"
+import { useEffect, useState, type SubmitEvent } from "react"
+import toast from "react-hot-toast"
 import { Link, useNavigate } from "react-router"
 import DsButton from "../../components/design-system/DsButton"
 import PageHeader from "../../components/global/PageHeader"
 import PagesLayout from "../../components/global/PagesLayout"
 import { DUMMY_BASE_URL } from "../../constants"
+import type { User } from "../../types/user"
 
 type FormData = {
     username: string
@@ -31,10 +33,19 @@ const Login = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
         })
-            .then(res => res.json())
-            .then((data) => {
-                console.log(data);
-                sessionStorage.setItem('userInfo', JSON.stringify(data));
+            .then((res) => {
+
+                if (!res.ok) {
+                    console.log(res);
+                    toast.error('Username or password is not correct');
+                    return
+                }
+
+                return res.json()
+            })
+            .then((data: User) => {
+                sessionStorage.setItem('token', data.accessToken);
+                toast.success('You Logined In Successfuly :)')
                 navigate('/app/home')
             })
             .catch((err) => {
@@ -45,6 +56,12 @@ const Login = () => {
             })
 
     }
+
+    useEffect(() => {
+        if (sessionStorage.getItem('token')) {
+            navigate('/app/home')
+        }
+    }, [])
 
     return (
         <PagesLayout>
