@@ -10,11 +10,11 @@ const Header = () => {
 	const [user, setUser] = useState<User | null>(null);
 
 	const links = [
-		{ title: 'Home', link: '/home' },
-		{ title: 'About Us', link: '/about-us' },
-		{ title: 'Contact Us', link: '/contact-us' },
-		{ title: 'Todo List', link: '/todo-list' },
-		{ title: 'Posts', link: '/posts' },
+		{ title: 'Home', link: '/app/home' },
+		{ title: 'About Us', link: '/app/about-us' },
+		{ title: 'Contact Us', link: '/app/contact-us' },
+		{ title: 'Todo List', link: '/app/todo-list' },
+		{ title: 'Posts', link: '/app/posts' },
 	]
 
 	useEffect(() => {
@@ -54,7 +54,7 @@ const Header = () => {
 				</ul>
 				<div className="flex gap-2 items-center text-white">
 					<LucideUser2 />
-					{user?.name + ' ' + user?.family}
+					{user?.firstName + ' ' + user?.lastName}
 					<LucideLogOut className="text-red-500 cursor-pointer" size={18} onClick={logout} />
 				</div>
 			</nav>
