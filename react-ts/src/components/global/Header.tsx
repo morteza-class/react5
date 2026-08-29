@@ -1,7 +1,7 @@
 import { LoaderCircle, LucideLogOut, LucideUser2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { NavLink, useNavigate } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { DUMMY_BASE_URL } from "../../constants";
 import type { User } from "../../types/user";
 
@@ -22,6 +22,8 @@ const Header = () => {
 		{ title: 'Contact Us', link: '/app/contact-us' },
 		{ title: 'Todo List', link: '/app/todo-list' },
 		{ title: 'Posts', link: '/app/posts' },
+		{ title: 'Test Drop Drilling', link: '/app/test-drop-drilling' },
+		{ title: 'Test Context', link: '/app/test-context' },
 	]
 
 	const getMeApi = async () => {
@@ -86,9 +88,11 @@ const Header = () => {
 						}
 
 					</ul>
-					<div className="flex gap-2 items-center text-white">
-						<LucideUser2 />
-						{user?.firstName + ' ' + user?.lastName}
+					<div className="flex gap-3 items-center text-white">
+						<Link to="/app/profile" className="flex items-center gap-1">
+							<img src={user?.image} alt={user?.firstName + ' ' + user?.lastName} className="w-8 h-8 p-1 bg-slate-700 rounded-full" />
+							{user?.firstName + ' ' + user?.lastName}
+						</Link>
 						<LucideLogOut className="text-red-500 cursor-pointer" size={18} onClick={logout} />
 					</div>
 				</nav>
