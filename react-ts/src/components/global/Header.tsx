@@ -1,6 +1,7 @@
-import { LoaderCircle, LucideLogOut, LucideUser2 } from "lucide-react";
+import { LoaderCircle, LucideLogOut } from "lucide-react";
 import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router";
+import toast from "react-hot-toast";
+import { Link, NavLink, useNavigate } from "react-router";
 import { DUMMY_BASE_URL } from "../../constants";
 import type { User } from "../../types/user";
 
@@ -24,28 +25,27 @@ const Header = () => {
 		{ title: 'Posts', link: '/app/posts' },
 	]
 
-	const getMeData = () => {
-
-		fetch(`${DUMMY_BASE_URL}/auth/me`, {
+	const getMeApi = async () => {
+		const res = await fetch(`${DUMMY_BASE_URL}/auth/me`, {
 			method: 'GET',
 			headers: {
 				'Authorization': `Bearer ${sessionStorage.getItem('token')}`, // Pass JWT via Authorization header
 			}
 		})
-			.then((res) => {
-				console.log(res)
-				if (res.ok) {
-					return res.json()
-				} else {
-					afterLogout()
-				}
-			})
-			.then((data) => {
-				setUser(data);
-			})
-			.finally(() => {
-				setMainLoading(false);
-			})
+
+		const data = await res.json()
+		if (res.ok) {
+			return data
+		} else {
+			toast.error(data.message);
+			afterLogout();
+		}
+	}
+
+	const getMeData = async () => {
+		const data = await getMeApi();
+		setUser(data);
+		setMainLoading(false)
 	}
 
 	useEffect(() => {
@@ -85,8 +85,10 @@ const Header = () => {
 
 					</ul>
 					<div className="flex gap-2 items-center text-white">
-						<LucideUser2 />
-						{user?.firstName + ' ' + user?.lastName}
+						<Link to="/app/profile" className="flex items-center gap-1 text-lg">
+							<img src={user?.image} alt={user?.firstName + ' ' + user?.lastName} className="w-9 h-9 p-1 bg-slate-600 rounded-full" />
+							{user?.firstName + ' ' + user?.lastName}
+						</Link>
 						<LucideLogOut className="text-red-500 cursor-pointer" size={18} onClick={logout} />
 					</div>
 				</nav>

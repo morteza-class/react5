@@ -1,14 +1,15 @@
 import { Navigate, Route, Routes } from "react-router";
+import AppLayout from "../components/global/AppLayout";
 import AboutUs from "../pages/about-us";
 import ContactUs from "../pages/contact-us";
 import Home from "../pages/home";
+import Login from "../pages/login";
 import NotFound from "../pages/not-found";
 import Posts from "../pages/posts";
 import PostDetails from "../pages/posts/components/Details";
-import Todos from "../pages/todo-list";
-import Login from "../pages/login";
-import AppLayout from "../components/global/AppLayout";
+import Profile from "../pages/profile";
 import RecoverPass from "../pages/recover-pass";
+import Todos from "../pages/todo-list";
 
 const AppRoutes = () => {
     return (
@@ -21,6 +22,7 @@ const AppRoutes = () => {
 
             <Route path="/app" element={<AppLayout />}>
                 <Route path="home" element={<Home />} />
+                <Route path="profile" element={<Profile />} />
                 <Route path="about-us" element={<AboutUs />} />
                 <Route path="contact-us" element={<ContactUs />} />
                 <Route path="todo-list" element={<Todos />} />
