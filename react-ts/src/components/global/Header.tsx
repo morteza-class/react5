@@ -1,8 +1,9 @@
-import { LoaderCircle, LucideLogOut, LucideUser2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { LoaderCircle, LucideLogOut, LucideMoon, LucideSun } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, NavLink, useNavigate } from "react-router";
 import { DUMMY_BASE_URL } from "../../constants";
+import { GlobalContext } from "../../contexts/GlobalContext";
 import type { User } from "../../types/user";
 
 const Header = () => {
@@ -10,6 +11,7 @@ const Header = () => {
 	const navigate = useNavigate();
 	const [user, setUser] = useState<User | null>(null);
 	const [mainLoading, setMainLoading] = useState(true);
+	const globalContext = useContext(GlobalContext);
 
 	const afterLogout = () => {
 		sessionStorage.removeItem('token');
@@ -89,6 +91,11 @@ const Header = () => {
 
 					</ul>
 					<div className="flex gap-3 items-center text-white">
+
+						<span onClick={globalContext?.toggleTheme} className="cursor-pointer">
+							{globalContext?.theme === 'light' ? <LucideMoon /> : <LucideSun />}
+						</span>
+
 						<Link to="/app/profile" className="flex items-center gap-1">
 							<img src={user?.image} alt={user?.firstName + ' ' + user?.lastName} className="w-8 h-8 p-1 bg-slate-700 rounded-full" />
 							{user?.firstName + ' ' + user?.lastName}
