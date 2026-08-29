@@ -5,7 +5,6 @@ import DsButton from "../../components/design-system/DsButton"
 import PageHeader from "../../components/global/PageHeader"
 import PagesLayout from "../../components/global/PagesLayout"
 import { DUMMY_BASE_URL } from "../../constants"
-import type { User } from "../../types/user"
 
 type FormData = {
     username: string
@@ -17,44 +16,37 @@ const initalData: FormData = {
     password: ''
 }
 
+
+
 const Login = () => {
 
     const [formData, setFormData] = useState<FormData>(initalData);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
-
-        e.preventDefault();
-
-        setLoading(true);
-        fetch(`${DUMMY_BASE_URL}/auth/login`, {
+    const loginApi = async () => {
+        const res = await fetch(`${DUMMY_BASE_URL}/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
-        })
-            .then((res) => {
+        });
+        const data = await res.json();
+        if (res.ok) {
+            return data;
+        } else {
+            toast.error(data.message)
+        }
+    }
 
-                if (!res.ok) {
-                    console.log(res);
-                    toast.error('Username or password is not correct');
-                    return
-                }
+    const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-                return res.json()
-            })
-            .then((data: User) => {
-                sessionStorage.setItem('token', data.accessToken);
-                toast.success('You Logined In Successfuly :)')
-                navigate('/app/home')
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                setLoading(false);
-            })
-
+        setLoading(true);
+        const data = await loginApi();
+        sessionStorage.setItem('token', data.accessToken);
+        toast.success('You Logined In Successfuly :)')
+        navigate('/app/home')
+        setLoading(false);
     }
 
     useEffect(() => {

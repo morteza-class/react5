@@ -1,9 +1,9 @@
 import { LoaderCircle, LucideLogOut, LucideUser2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router";
 import { DUMMY_BASE_URL } from "../../constants";
 import type { User } from "../../types/user";
-
 
 const Header = () => {
 
@@ -24,28 +24,30 @@ const Header = () => {
 		{ title: 'Posts', link: '/app/posts' },
 	]
 
-	const getMeData = () => {
-
-		fetch(`${DUMMY_BASE_URL}/auth/me`, {
-			method: 'GET',
-			headers: {
-				'Authorization': `Bearer ${sessionStorage.getItem('token')}`, // Pass JWT via Authorization header
-			}
-		})
-			.then((res) => {
-				console.log(res)
-				if (res.ok) {
-					return res.json()
-				} else {
-					afterLogout()
+	const getMeApi = async () => {
+		try {
+			const res = await fetch(`${DUMMY_BASE_URL}/auth/me`, {
+				method: 'GET',
+				headers: {
+					'Authorization': `Bearer ${sessionStorage.getItem('token')}`, // Pass JWT via Authorization header
 				}
-			})
-			.then((data) => {
-				setUser(data);
-			})
-			.finally(() => {
-				setMainLoading(false);
-			})
+			});
+			const data = await res.json();
+			if (res.ok) {
+				return data;
+			} else {
+				toast.error(data.message)
+				afterLogout();
+			}
+		} catch {
+			afterLogout();
+		}
+	}
+
+	const getMeData = async () => {
+		const data = await getMeApi();
+		setUser(data);
+		setMainLoading(false);
 	}
 
 	useEffect(() => {
