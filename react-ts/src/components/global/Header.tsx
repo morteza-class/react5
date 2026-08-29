@@ -11,7 +11,7 @@ const Header = () => {
 	const navigate = useNavigate();
 	const [user, setUser] = useState<User | null>(null);
 	const [mainLoading, setMainLoading] = useState(true);
-	const globalContext = useContext(GlobalContext);
+	const { theme, toggleTheme } = useContext(GlobalContext);
 
 	const afterLogout = () => {
 		sessionStorage.removeItem('token');
@@ -71,7 +71,7 @@ const Header = () => {
 
 	return (
 		<>
-			<header className="bg-slate-800 p-4 fixed top-0 right-0 left-0">
+			<header className="bg-gray-600 dark:bg-slate-800 p-4 fixed top-0 right-0 left-0">
 				<nav className="flex justify-between px-4">
 					<ul className="flex justify-center gap-12">
 						{
@@ -92,8 +92,8 @@ const Header = () => {
 					</ul>
 					<div className="flex gap-3 items-center text-white">
 
-						<span onClick={globalContext?.toggleTheme} className="cursor-pointer">
-							{globalContext?.theme === 'light' ? <LucideMoon /> : <LucideSun />}
+						<span onClick={toggleTheme} className="cursor-pointer">
+							{theme === 'light' ? <LucideMoon /> : <LucideSun />}
 						</span>
 
 						<Link to="/app/profile" className="flex items-center gap-1">

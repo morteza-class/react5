@@ -18,10 +18,10 @@ const TestContext = () => {
   }
 
   return (
-    <UserContext value={userData}>
+    <UserContext.Provider value={userData}>
       <PageHeader text="Test Context" />
       <Parent />
-    </UserContext>
+    </UserContext.Provider>
   )
 }
 
