@@ -1,9 +1,10 @@
-import { LoaderCircle, LucideLogOut } from "lucide-react";
-import { useEffect, useState } from "react";
+import { LoaderCircle, LucideLogOut, LucideMoon, LucideSun } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, NavLink, useNavigate } from "react-router";
 import { DUMMY_BASE_URL } from "../../constants";
 import type { User } from "../../types/user";
+import { GlobalContext } from "../../contexts/GlobalContext";
 
 
 const Header = () => {
@@ -11,6 +12,7 @@ const Header = () => {
 	const navigate = useNavigate();
 	const [user, setUser] = useState<User | null>(null);
 	const [mainLoading, setMainLoading] = useState(true);
+	const {theme, toggleTheme} = useContext(GlobalContext)
 
 	const afterLogout = () => {
 		sessionStorage.removeItem('token');
@@ -23,6 +25,8 @@ const Header = () => {
 		{ title: 'Contact Us', link: '/app/contact-us' },
 		{ title: 'Todo List', link: '/app/todo-list' },
 		{ title: 'Posts', link: '/app/posts' },
+		{ title: 'Drop Drilling', link: '/app/drop-drilling' },
+		{ title: 'Test Context', link: '/app/test-context' },
 	]
 
 	const getMeApi = async () => {
@@ -85,6 +89,13 @@ const Header = () => {
 
 					</ul>
 					<div className="flex gap-2 items-center text-white">
+
+						{
+							<span onClick={toggleTheme} className="cursor-pointer">
+								{theme === 'light' ? <LucideMoon /> : <LucideSun />}
+							</span>
+						}
+
 						<Link to="/app/profile" className="flex items-center gap-1 text-lg">
 							<img src={user?.image} alt={user?.firstName + ' ' + user?.lastName} className="w-9 h-9 p-1 bg-slate-600 rounded-full" />
 							{user?.firstName + ' ' + user?.lastName}

@@ -10,6 +10,8 @@ import PostDetails from "../pages/posts/components/Details";
 import Profile from "../pages/profile";
 import RecoverPass from "../pages/recover-pass";
 import Todos from "../pages/todo-list";
+import DropDrilling from "../pages/drop-drilling";
+import TestContext from "../pages/test-context";
 
 const AppRoutes = () => {
     return (
@@ -28,6 +30,8 @@ const AppRoutes = () => {
                 <Route path="todo-list" element={<Todos />} />
                 <Route path="posts" element={<Posts />} />
                 <Route path="posts/:postId" element={<PostDetails />} />
+                <Route path="drop-drilling" element={<DropDrilling />} />
+                <Route path="test-context" element={<TestContext />} />
             </Route>
 
 
