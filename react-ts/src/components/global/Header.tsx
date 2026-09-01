@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 import { Link, NavLink, useNavigate } from "react-router";
 import { DUMMY_BASE_URL } from "../../constants";
 import type { User } from "../../types/user";
-import { GlobalContext } from "../../contexts/GlobalContext";
+// import { GlobalContext } from "../../contexts/GlobalContext";
+import { useGlobalStore } from "../../stores/global.store";
 
 
 const Header = () => {
@@ -12,7 +13,8 @@ const Header = () => {
 	const navigate = useNavigate();
 	const [user, setUser] = useState<User | null>(null);
 	const [mainLoading, setMainLoading] = useState(true);
-	const { theme, toggleTheme } = useContext(GlobalContext)
+	// const { theme, toggleTheme } = useContext(GlobalContext);
+	const { theme, toggleTheme } = useGlobalStore();
 
 	const afterLogout = () => {
 		sessionStorage.removeItem('token');
@@ -70,7 +72,7 @@ const Header = () => {
 
 	return (
 		<>
-			<header className="bg-slate-800 p-4 fixed top-0 right-0 left-0">
+			<header className="bg-gray-300 dark:bg-slate-800 p-4 fixed top-0 right-0 left-0">
 				<nav className="flex justify-between px-4">
 					<ul className="flex justify-center gap-12">
 						{
@@ -79,7 +81,7 @@ const Header = () => {
 									<li key={index}>
 										<NavLink
 											to={item.link}
-											className={({ isActive }) => `text-xl text-gray-400 hover:text-gray-300 ${isActive ? 'text-blue-500!' : ''}`}
+											className={({ isActive }) => `text-xl text-gray-800 dark:text-gray-400 hover:text-gray-300 ${isActive ? 'text-blue-500!' : ''}`}
 										>
 											{item.title}
 										</NavLink>
@@ -92,13 +94,13 @@ const Header = () => {
 					<div className="flex gap-2 items-center text-white">
 
 						{
-							<span onClick={toggleTheme} className="cursor-pointer">
+							<span onClick={toggleTheme} className="cursor-pointer text-gray-800 dark:text-gray-200">
 								{theme === 'light' ? <LucideMoon /> : <LucideSun />}
 							</span>
 						}
 
-						<Link to="/app/profile" className="flex items-center gap-1 text-lg">
-							<img src={user?.image} alt={user?.firstName + ' ' + user?.lastName} className="w-9 h-9 p-1 bg-slate-600 rounded-full" />
+						<Link to="/app/profile" className="flex items-center gap-1 text-lg text-gray-800 dark:text-gray-200">
+							<img src={user?.image} alt={user?.firstName + ' ' + user?.lastName} className="w-9 h-9 p-1 bg-gray-400 dark:bg-slate-600 rounded-full" />
 							{user?.firstName + ' ' + user?.lastName}
 						</Link>
 						<LucideLogOut className="text-red-500 cursor-pointer" size={18} onClick={logout} />
@@ -108,7 +110,7 @@ const Header = () => {
 
 			{
 				mainLoading &&
-				<div className="w-screen h-screen fixed top-0 right-0 bg-slate-700 text-white text-3xl flex gap-3 flex-col justify-center items-center">
+				<div className="w-screen h-screen fixed top-0 right-0 bg-gray-300 dark:bg-slate-700 text-gray-800 dark:text-white text-3xl flex gap-3 flex-col justify-center items-center">
 					<LoaderCircle size={50} className="animate-spin" />
 					Please Wait A Moment ...
 				</div>
