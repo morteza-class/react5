@@ -3,16 +3,16 @@ import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, NavLink, useNavigate } from "react-router";
 import { DUMMY_BASE_URL } from "../../constants";
-import type { User } from "../../types/user";
 import { GlobalContext } from "../../contexts/GlobalContext";
+import { useAuthStore } from "../../stores/auth.store";
 
 
 const Header = () => {
 
 	const navigate = useNavigate();
-	const [user, setUser] = useState<User | null>(null);
 	const [mainLoading, setMainLoading] = useState(true);
-	const {theme, toggleTheme} = useContext(GlobalContext)
+	const { theme, toggleTheme } = useContext(GlobalContext)
+	const { user, setUser } = useAuthStore();
 
 	const afterLogout = () => {
 		sessionStorage.removeItem('token');
