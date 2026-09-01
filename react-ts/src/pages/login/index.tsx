@@ -31,9 +31,9 @@ const Login = () => {
 
         const data = await res.json()
         if (res.ok) {
-            return data
+            return Promise.resolve(data)
         } else {
-            toast.error(data.message)
+            return Promise.reject(data.message);
         }
     }
 
@@ -41,11 +41,16 @@ const Login = () => {
         e.preventDefault();
 
         setLoading(true);
-        const data = await loginApi();
-        sessionStorage.setItem('token', data.accessToken);
-        toast.success('You Logined In Successfuly :)')
-        navigate('/app/home');
-        setLoading(false);
+        try {
+            const data = await loginApi();
+            sessionStorage.setItem('token', data.accessToken);
+            toast.success('You Logined In Successfuly :)');
+            navigate('/app/home');
+            setLoading(false);
+        } catch (error) {
+            toast.error(error as string);
+            setLoading(false);
+        }
     }
 
     useEffect(() => {

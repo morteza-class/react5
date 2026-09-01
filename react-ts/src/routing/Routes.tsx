@@ -12,6 +12,7 @@ import RecoverPass from "../pages/recover-pass";
 import Todos from "../pages/todo-list";
 import DropDrilling from "../pages/drop-drilling";
 import TestContext from "../pages/test-context";
+import Counter from "../pages/counter";
 
 const AppRoutes = () => {
     return (
@@ -32,6 +33,7 @@ const AppRoutes = () => {
                 <Route path="posts/:postId" element={<PostDetails />} />
                 <Route path="drop-drilling" element={<DropDrilling />} />
                 <Route path="test-context" element={<TestContext />} />
+                <Route path="counter" element={<Counter />} />
             </Route>
 
 
