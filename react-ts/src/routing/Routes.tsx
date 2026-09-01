@@ -2,6 +2,8 @@ import { Navigate, Route, Routes } from "react-router";
 import AppLayout from "../components/global/AppLayout";
 import AboutUs from "../pages/about-us";
 import ContactUs from "../pages/contact-us";
+import Counter from "../pages/counter";
+import DropDrilling from "../pages/drop-drilling";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import NotFound from "../pages/not-found";
@@ -9,9 +11,8 @@ import Posts from "../pages/posts";
 import PostDetails from "../pages/posts/components/Details";
 import Profile from "../pages/profile";
 import RecoverPass from "../pages/recover-pass";
-import Todos from "../pages/todo-list";
-import DropDrilling from "../pages/drop-drilling";
 import TestContext from "../pages/test-context";
+import Todos from "../pages/todo-list";
 
 const AppRoutes = () => {
     return (
@@ -32,6 +33,7 @@ const AppRoutes = () => {
                 <Route path="posts/:postId" element={<PostDetails />} />
                 <Route path="drop-drilling" element={<DropDrilling />} />
                 <Route path="test-context" element={<TestContext />} />
+                <Route path="counter" element={<Counter />} />
             </Route>
 
 

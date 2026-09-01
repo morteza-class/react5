@@ -33,19 +33,26 @@ const Login = () => {
         if (res.ok) {
             return data
         } else {
-            toast.error(data.message)
+            return Promise.reject(data.message)
         }
     }
 
     const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        setLoading(true);
-        const data = await loginApi();
-        sessionStorage.setItem('token', data.accessToken);
-        toast.success('You Logined In Successfuly :)')
-        navigate('/app/home');
-        setLoading(false);
+        try {
+            setLoading(true);
+            const data = await loginApi();
+            sessionStorage.setItem('token', data.accessToken);
+            toast.success('You Logined In Successfuly :)')
+            navigate('/app/home');
+            setLoading(false);
+        }
+        catch (err) {
+            toast.error(err as string);
+            setLoading(false);
+        }
+
     }
 
     useEffect(() => {

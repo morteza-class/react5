@@ -27,6 +27,7 @@ const Header = () => {
 		{ title: 'Posts', link: '/app/posts' },
 		{ title: 'Drop Drilling', link: '/app/drop-drilling' },
 		{ title: 'Test Context', link: '/app/test-context' },
+		{ title: 'Counter', link: '/app/counter' },
 	]
 
 	const getMeApi = async () => {
