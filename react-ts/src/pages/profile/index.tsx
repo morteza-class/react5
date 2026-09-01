@@ -1,29 +1,8 @@
-import { useEffect, useState } from "react";
 import PageHeader from "../../components/global/PageHeader";
-import { DUMMY_BASE_URL } from "../../constants";
-import type { User } from "../../types/user";
+import { useAuthStore } from "../../stores/auth.store";
 
 const Profile = () => {
-
-
-    const [user, setUser] = useState<User | null>(null);
-
-    const getMeApi = async () => {
-        const res = await fetch(`${DUMMY_BASE_URL}/auth/me`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${sessionStorage.getItem('token')}`, // Pass JWT via Authorization header
-            }
-        })
-
-        const data = await res.json();
-        setUser(data);
-    }
-
-
-    useEffect(() => {
-        getMeApi()
-    }, [])
+    const { user } = useAuthStore();
 
     return (
         <>
@@ -37,10 +16,8 @@ const Profile = () => {
                 <div className="flex flex-col gap-3">
                     <h1 className="text-4xl font-bold">{user?.firstName + ' ' + user?.lastName}</h1>
                     <h2 className="text-2xl">{user?.email}</h2>
-                    <h3 className="text-2xl">{user?.gender}</h3>
+                    <h3 className="text-2xl capitalize">{user?.gender}</h3>
                 </div>
-
-
             </div>
 
         </>

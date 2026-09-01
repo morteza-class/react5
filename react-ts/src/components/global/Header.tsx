@@ -1,20 +1,18 @@
 import { LoaderCircle, LucideLogOut, LucideMoon, LucideSun } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, NavLink, useNavigate } from "react-router";
 import { DUMMY_BASE_URL } from "../../constants";
-import type { User } from "../../types/user";
-// import { GlobalContext } from "../../contexts/GlobalContext";
+import { useAuthStore } from "../../stores/auth.store";
 import { useGlobalStore } from "../../stores/global.store";
 
 
 const Header = () => {
 
 	const navigate = useNavigate();
-	const [user, setUser] = useState<User | null>(null);
 	const [mainLoading, setMainLoading] = useState(true);
-	// const { theme, toggleTheme } = useContext(GlobalContext);
 	const { theme, toggleTheme } = useGlobalStore();
+	const { user, setUser } = useAuthStore();
 
 	const afterLogout = () => {
 		sessionStorage.removeItem('token');
@@ -52,7 +50,7 @@ const Header = () => {
 	const getMeData = async () => {
 		const data = await getMeApi();
 		setUser(data);
-		setMainLoading(false)
+		setMainLoading(false);
 	}
 
 	useEffect(() => {
@@ -81,7 +79,7 @@ const Header = () => {
 									<li key={index}>
 										<NavLink
 											to={item.link}
-											className={({ isActive }) => `text-xl text-gray-800 dark:text-gray-400 hover:text-gray-300 ${isActive ? 'text-blue-500!' : ''}`}
+											className={({ isActive }) => `text-xl text-gray-800 dark:text-gray-400 hover:text-blue-500 dark:hover:text-gray-300 ${isActive ? 'text-blue-500!' : ''}`}
 										>
 											{item.title}
 										</NavLink>

@@ -7,7 +7,7 @@ type GlobalStore = {
 }
 
 export const useGlobalStore = create<GlobalStore>((set) => ({
-  theme: "light",
+  theme: "dark",
   toggleTheme: () => {
     set((state) => {
       const newTheme: theme = state.theme === "light" ? "dark" : "light";
