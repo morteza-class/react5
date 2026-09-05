@@ -1,5 +1,5 @@
 import { DUMMY_BASE_URL } from "../constants";
-import type { Post, PostsResponse } from "../types/posts";
+import type { CreatePostForm, Post, PostsResponse } from "../types/posts";
 
 
 // get posts list
@@ -15,7 +15,7 @@ export const getPostsApi = async (): Promise<PostsResponse> => {
 
 }
 
-// get post  details
+// get post details
 export const getPostApi = async (id: number): Promise<Post> => {
 
     const response = await fetch(`${DUMMY_BASE_URL}/posts/${id}`);
@@ -27,3 +27,24 @@ export const getPostApi = async (id: number): Promise<Post> => {
     return data
 
 }
+
+
+// creaste a post
+export const createPostApi = async (post: CreatePostForm): Promise<Post> => {
+
+    const response = await fetch(`${DUMMY_BASE_URL}/posts/add`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(post)
+    });
+
+    if (!response.ok) {
+        const err = await response.json()
+        throw new Error(err.message || 'Create post failed')
+    }
+
+    const data: Post = await response.json();
+    return data
+
+}
+

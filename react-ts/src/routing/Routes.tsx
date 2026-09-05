@@ -13,6 +13,7 @@ import Profile from "../pages/profile";
 import RecoverPass from "../pages/recover-pass";
 import TestContext from "../pages/test-context";
 import Todos from "../pages/todo-list";
+import CreatePost from "../pages/posts/components/CreatePost";
 
 const AppRoutes = () => {
     return (
@@ -30,6 +31,7 @@ const AppRoutes = () => {
                 <Route path="contact-us" element={<ContactUs />} />
                 <Route path="todo-list" element={<Todos />} />
                 <Route path="posts" element={<Posts />} />
+                <Route path="posts/create" element={<CreatePost />} />
                 <Route path="posts/:postId" element={<PostDetails />} />
                 <Route path="drop-drilling" element={<DropDrilling />} />
                 <Route path="test-context" element={<TestContext />} />

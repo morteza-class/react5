@@ -19,3 +19,9 @@ interface Reactions {
     likes: number
     dislikes: number
 }
+
+export interface CreatePostForm {
+    title: string;
+    body: string;
+    userId: number | undefined
+}

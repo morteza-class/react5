@@ -63,6 +63,7 @@ const DsButton = ({
     >
       {!isLoading && icon ? icon : null}
       {isLoading ? <LoaderCircle size={18} className='animate-spin' /> : undefined}
+      
       {text}
     </button>
   )
