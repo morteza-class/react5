@@ -1,12 +1,12 @@
 import { LucideArrowLeft } from "lucide-react"
-import type { FC } from "react"
+import type { ElementType, FC } from "react"
 import { useNavigate } from "react-router"
 import DsButton from "../design-system/DsButton"
 import DsTypography from "../design-system/DsTypography"
 
 type PropTypes = {
     text: string
-    element?: HTMLElement
+    element?: ElementType
     backRoute?: string
     showBack?: boolean
 }
