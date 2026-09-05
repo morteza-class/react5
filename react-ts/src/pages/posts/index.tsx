@@ -14,7 +14,12 @@ const Posts = () => {
 
 	return (
 		<>
-			<PageHeader text="Posts Page" />
+			<div className="flex justify-between items-center mb-4">
+				<PageHeader text="Posts Page" />
+				<Link to="/app/posts/create">
+					<DsButton text="Create Post" size="lg" color="blue" />
+				</Link>
+			</div>
 
 			{
 				isLoading ?

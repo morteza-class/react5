@@ -19,3 +19,9 @@ export interface PostsResponse {
   skip: number;
   limit: number;
 }
+
+export interface CreatePostRequest {
+  title: string;
+  body: string;
+  userId: number;
+}
