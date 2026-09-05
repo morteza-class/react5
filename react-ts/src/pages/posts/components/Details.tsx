@@ -1,45 +1,31 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
-import { BASE_URL } from "../../../constants";
-import PageHeader from "../../../components/global/PageHeader";
 import DsTypography from "../../../components/design-system/DsTypography";
 import Loading from "../../../components/global/Loading";
+import PageHeader from "../../../components/global/PageHeader";
+import { getPostApi } from "../../../services/posts-service";
 
 
 const PostDetails = () => {
 
-    const [details, setDetails] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    // const params = useParams();
-    // console.log(params)
     const { postId } = useParams();
 
-    const getPostDetails = () => {
-        fetch(`${BASE_URL}/posts/${postId}`)
-            .then(response => response.json())
-            .then(data => setDetails(data))
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => setIsLoading(false))
-    }
-
-
-    useEffect(() => {
-        getPostDetails();
-    }, []);
+    const { data: details, isLoading } = useQuery({
+        queryKey: [`post-details-${postId}`],
+        queryFn: () => getPostApi(Number(postId))
+    })
 
     return (
         <>
-            <PageHeader text={`Post Details - Post ID=${postId}`} element="h2" showBack backRoute="/posts" />
+            <PageHeader text={`Post Details - Post ID=${postId}`} element="h2" showBack backRoute="/app/posts" />
 
             {
                 isLoading ?
                     <Loading />
                     :
                     <div className="bg-gray-700 p-4 rounded-lg w-1/2">
-                        <DsTypography element="h1" className="text-2xl font-bold mb-4">{details.title}</DsTypography>
-                        <DsTypography element="p" className="text-xl">{details.body}</DsTypography>
+                        <DsTypography element="h1" className="text-2xl font-bold mb-4">{details?.title || '-'}</DsTypography>
+                        <DsTypography element="p" className="text-xl">{details?.body || '-'}</DsTypography>
                     </div>
             }
         </>

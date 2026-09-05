@@ -1,30 +1,18 @@
-import { useEffect, useState } from "react";
 
 import { Link } from "react-router";
 import DsButton from "../../components/design-system/DsButton";
 import Loading from "../../components/global/Loading";
 import PageHeader from "../../components/global/PageHeader";
-import { BASE_URL } from "../../constants";
+import { useQuery } from "@tanstack/react-query";
+import { getPostsApi } from "../../services/posts-service";
 
 const Posts = () => {
 
-    const [posts, setPosts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const {data, isLoading} = useQuery({
+        queryKey: ['posts-list'],
+        queryFn: () => getPostsApi()
+    });
 
-    const getPosts = () => {
-        fetch(`${BASE_URL}/posts`)
-            .then(response => response.json())
-            .then(data => setPosts(data))
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => setIsLoading(false))
-    }
-
-
-    useEffect(() => {
-        getPosts();
-    }, []);
 
     return (
         <>
@@ -47,7 +35,7 @@ const Posts = () => {
                             </thead>
                             <tbody>
                                 {
-                                    posts.map((post, index) => {
+                                    data?.posts.map((post, index) => {
                                         return (
                                             <tr key={post.id} className="border border-gray-600 even:bg-gray-800 hover:bg-gray-700">
                                                 <td className="p-2 text-lg">{index + 1}</td>
@@ -55,7 +43,7 @@ const Posts = () => {
                                                 <td className="p-2 text-lg">{post.userId}</td>
                                                 <td className="p-2 text-lg">{post.body}</td>
                                                 <td className="p-2 text-lg">
-                                                    <Link to={`/posts/${post.id}`}>
+                                                    <Link to={`/app/posts/${post.id}`}>
                                                         <DsButton text="Details" size="md" color="blue" />
                                                     </Link>
                                                 </td>
