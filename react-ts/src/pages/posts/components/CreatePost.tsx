@@ -1,24 +1,25 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState, type SubmitEvent } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router";
 import DsButton from "../../../components/design-system/DsButton";
 import { createPostApi } from "../../../services/posts-service";
-import type { CreatePostForm } from "../../../types/posts";
 import { useAuthStore } from "../../../stores/auth.store";
-
-const initialFormData = {
-    title: '',
-    body: '',
-    userId: undefined
-}
+import type { CreatePostForm } from "../../../types/posts";
 
 const CreatePost = () => {
 
-    const [formData, setFormData] = useState<CreatePostForm>(initialFormData);
     const { user } = useAuthStore();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+
+    const { register, handleSubmit, formState: { errors } } = useForm<CreatePostForm>({
+        defaultValues: {
+            title: '',
+            body: '',
+            userId: undefined
+        }
+    })
 
     const { mutate, isPending } = useMutation({
         mutationFn: createPostApi,
@@ -32,9 +33,7 @@ const CreatePost = () => {
         }
     })
 
-    const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
+    const onCreatePost = (formData: CreatePostForm) => {
         mutate({
             title: formData.title,
             body: formData.body,
@@ -44,28 +43,30 @@ const CreatePost = () => {
 
     return (
 
-        <form className="bg-slate-800 p-8 rounded-lg mx-auto w-1/3 mt-4" onSubmit={(e) => handleSubmit(e)}>
+        <form className="bg-slate-800 p-8 rounded-lg mx-auto w-1/3 mt-4" onSubmit={handleSubmit(onCreatePost)}>
             <div className='mb-4'>
-                <label className='text-lg mb-1'>Title</label>
+                <label className='flex justify-between items-center text-lg mb-1'>
+                    Title
+                    {errors.title && <span className="text-red-500">{errors.title.message}</span>}
+                </label>
                 <input
                     type="text"
                     placeholder='Enter Post Title'
                     className='w-full border border-gray-400 bg-gray-800 px-3 py-2 text-lg rounded-md'
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    required
+                    {...register('title', { required: 'Post title is required' })}
                 />
             </div>
 
             <div className='mb-4'>
-                <label className='text-lg mb-1'>Body</label>
+                <label className='flex justify-between items-center text-lg mb-1'>
+                    Body
+                    {errors.body && <span className="text-red-500">{errors.body.message}</span>}
+                </label>
                 <textarea
                     placeholder='Enter Post Body'
                     className='w-full border border-gray-400 bg-gray-800 px-3 py-2 text-lg rounded-md'
-                    value={formData.body}
-                    onChange={(e) => setFormData({ ...formData, body: e.target.value })}
-                    required
                     rows={5}
+                    {...register('body', { required: 'Post body is required', minLength: {value: 10, message: 'At Least 10 Characters'} })}
                 ></textarea>
             </div>
 
