@@ -15,7 +15,7 @@ export type LoginFormData = {
 
 const Login = () => {
 
-	const { register, handleSubmit } = useForm<LoginFormData>();
+	const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
 	const navigate = useNavigate();
 
 	const { mutate: login, isPending } = useMutation({
@@ -49,23 +49,27 @@ const Login = () => {
 
 			<form className="bg-slate-800 p-8 rounded-lg mx-auto w-1/3" onSubmit={handleSubmit(onSubmit)}>
 				<div className='mb-4'>
-					<label className='text-lg mb-1'>Username</label>
+					<label className='flex justify-between  items-center text-lg mb-1'>
+						Username
+						{errors.username && <span className='text-red-500 text-sm ml-2'>Username is required</span>}
+					</label>
 					<input
 						type="text"
 						placeholder='Enter Todo Username'
 						className='w-full border border-gray-400 bg-gray-800 px-3 py-2 text-lg rounded-md'
 						{...register('username', { required: true })}
-						required
 					/>
 				</div>
 				<div className='mb-4'>
-					<label className='text-lg mb-1'>Passweord</label>
+					<label className='flex justify-between  items-center text-lg mb-1'>
+						Passweord
+						{errors.password && <span className='text-red-500 text-sm ml-2'>Password is required</span>}
+					</label>
 					<input
 						type="password"
 						placeholder='Enter Passweord'
 						className='w-full border border-gray-400 bg-gray-800 px-3 py-2 text-lg rounded-md'
 						{...register('password', { required: true })}
-						required
 					/>
 				</div>
 				<div className="flex gap-4 mt-6">
