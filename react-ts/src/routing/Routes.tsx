@@ -6,14 +6,15 @@ import Counter from "../pages/counter";
 import DropDrilling from "../pages/drop-drilling";
 import Home from "../pages/home";
 import Login from "../pages/login";
+import MuiPage from "../pages/mui";
 import NotFound from "../pages/not-found";
 import Posts from "../pages/posts";
+import CreatePost from "../pages/posts/components/CreatePost";
 import PostDetails from "../pages/posts/components/Details";
 import Profile from "../pages/profile";
 import RecoverPass from "../pages/recover-pass";
 import TestContext from "../pages/test-context";
 import Todos from "../pages/todo-list";
-import CreatePost from "../pages/posts/components/CreatePost";
 
 const AppRoutes = () => {
     return (
@@ -36,6 +37,7 @@ const AppRoutes = () => {
                 <Route path="drop-drilling" element={<DropDrilling />} />
                 <Route path="test-context" element={<TestContext />} />
                 <Route path="counter" element={<Counter />} />
+                <Route path="mui" element={<MuiPage />} />
             </Route>
 
 
