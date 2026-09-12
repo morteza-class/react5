@@ -1,33 +1,64 @@
 
-import { Link } from "react-router";
-import DsButton from "../../components/design-system/DsButton";
-import Loading from "../../components/global/Loading";
-import PageHeader from "../../components/global/PageHeader";
+import Button from "@mui/material/Button";
+import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
+import { LucideEye, LucideRefreshCcw } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import DsButton from "../../components/design-system/DsButton";
+import PageHeader from "../../components/global/PageHeader";
 import { getPostsApi } from "../../services/posts-service";
-import { LucideRefreshCcw } from "lucide-react";
 
 const Posts = () => {
 
-    const { data, isLoading, refetch, isFetching } = useQuery({
-        queryKey: ['posts-list'],
-        queryFn: () => getPostsApi()
-    });
+	const navigate = useNavigate();
 
+	const { data, isLoading, refetch, isFetching } = useQuery({
+		queryKey: ['posts-list'],
+		queryFn: () => getPostsApi()
+	});
 
-    return (
-        <>
-            <div className="flex justify-between items-center mb-2">
-                <div className="flex items-baseline gap-2">
-                    <PageHeader text="Posts Page" />
-                    <DsButton justIcon icon={<LucideRefreshCcw />} onClick={refetch} isLoading={!isLoading && isFetching} tooltip="Refetch" />
-                </div>
-                <Link to="create">
-                    <DsButton color="blue" size="lg" text="Create Post" />
-                </Link>
-            </div>
+	const columns: GridColDef[] = [
+		{ field: 'id', headerName: 'Row' },
+		{ field: 'title', headerName: 'Title', width: 200 },
+		{ field: 'userId', headerName: 'User' },
+		{ field: 'body', headerName: 'Body', width: 400 },
+		{ field: 'views', headerName: 'Views' },
+		{
+			field: 'tags', headerName: 'Tags', width: 200,
+			renderCell: (params) => {
+				return (
+					<span>{params.value.join(', ')}</span>
+				)
+			}
+		},
+		{
+			field: 'action', headerName: 'Action', width: 300,
+			renderCell: (params) => {
+				const onClick = () => {
+					console.log(params)
+					navigate(`/app/posts/${params.id}`)
+				}
+				return (
+					<Button color="info" className="h-10" onClick={onClick}><LucideEye size={20} /></Button>
+				)
+			}
+		},
+	];
 
-            {
+	return (
+		<>
+			<div className="flex justify-between items-center mb-2">
+				<div className="flex items-baseline gap-2">
+					<PageHeader text="Posts Page" />
+					<DsButton justIcon icon={<LucideRefreshCcw />} onClick={refetch} isLoading={!isLoading && isFetching} tooltip="Refetch" />
+				</div>
+				<Link to="create">
+					<DsButton color="blue" size="lg" text="Create Post" />
+					<DsButton color="blue" size="lg" text="Create Post" />
+				</Link>
+			</div>
+
+			{/* {
                 isLoading ?
                     <Loading />
                     :
@@ -68,10 +99,14 @@ const Posts = () => {
                             </tbody>
                         </table>
                     </div>
-            }
-        </>
+            } */}
 
-    )
+
+			<DataGrid columns={columns} loading={isLoading || isFetching} rows={data?.posts} />
+
+		</>
+
+	)
 }
 
 export default Posts

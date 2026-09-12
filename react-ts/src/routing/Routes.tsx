@@ -14,6 +14,7 @@ import RecoverPass from "../pages/recover-pass";
 import TestContext from "../pages/test-context";
 import Todos from "../pages/todo-list";
 import CreatePost from "../pages/posts/components/CreatePost";
+import MUIPage from "../pages/mui";
 
 const AppRoutes = () => {
     return (
@@ -36,6 +37,7 @@ const AppRoutes = () => {
                 <Route path="drop-drilling" element={<DropDrilling />} />
                 <Route path="test-context" element={<TestContext />} />
                 <Route path="counter" element={<Counter />} />
+                <Route path="mui" element={<MUIPage />} />
             </Route>
 
 
