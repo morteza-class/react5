@@ -1,4 +1,4 @@
-import { LucideCheckCircle, LucidePencil, LucideTrash, LucideUndo } from "lucide-react";
+/* import { LucideCheckCircle, LucidePencil, LucideTrash, LucideUndo } from "lucide-react";
 import { useState } from "react";
 import { BASE_URL } from "../../../constants";
 import DsButton from "../../../components/design-system/DsButton";
@@ -115,4 +115,4 @@ const TodoItem = ({ todo, prepareToEdit, afterDelete }) => {
     )
 }
 
-export default TodoItem;
+export default TodoItem; */
