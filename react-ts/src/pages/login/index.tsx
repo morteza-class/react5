@@ -74,10 +74,10 @@ const Login = () => {
                     />
                 </div>
 
-                <div className="flex gap-4 mt-6">
-                    <DsButton type="submit" color="blue" size="lg" text="Login To App" isLoading={isPending} />
+                <div className="flex justify-between gap-4 mt-6">
+                    <DsButton type="submit" color="primary" size="large" loading={isPending}>Login To App</DsButton>
                     <Link to="/recover-password">
-                        <DsButton color="gray" size="lg" text="Recover Pasword" isDisabled={isPending} />
+                        <DsButton color="primary" variant="text" size="large" disabled={isPending}>Recover Pasword</DsButton>
                     </Link>
                 </div>
 

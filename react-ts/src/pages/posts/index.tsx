@@ -1,11 +1,11 @@
 
+import { useQuery } from "@tanstack/react-query";
+import { LucideRefreshCcw } from "lucide-react";
 import { Link } from "react-router";
 import DsButton from "../../components/design-system/DsButton";
 import Loading from "../../components/global/Loading";
 import PageHeader from "../../components/global/PageHeader";
-import { useQuery } from "@tanstack/react-query";
 import { getPostsApi } from "../../services/posts-service";
-import { LucideRefreshCcw } from "lucide-react";
 
 const Posts = () => {
 
@@ -18,13 +18,14 @@ const Posts = () => {
     return (
         <>
             <div className="flex justify-between items-center mb-2">
-                <div className="flex items-baseline gap-2">
-                    <PageHeader text="Posts Page" />
-                    <DsButton justIcon icon={<LucideRefreshCcw />} onClick={refetch} isLoading={!isLoading && isFetching} tooltip="Refetch" />
+                <PageHeader text="Posts Page" />
+
+                <div className="flex items-center gap-2">
+                    <DsButton startIcon={<LucideRefreshCcw />} onClick={() => refetch()} loading={!isLoading && isFetching} tooltip="Refetch" /> 
+                    <Link to="create">
+                        <DsButton color="primary" size="large">Create Post</DsButton>
+                    </Link>
                 </div>
-                <Link to="create">
-                    <DsButton color="blue" size="lg" text="Create Post" />
-                </Link>
             </div>
 
             {
@@ -57,7 +58,7 @@ const Posts = () => {
                                                 <td className="p-2 text-lg min-w-[250px]">{post.tags.join(', ')}</td>
                                                 <td className="p-2 text-lg">
                                                     <Link to={`/app/posts/${post.id}`}>
-                                                        <DsButton text="Details" size="md" color="blue" />
+                                                        <DsButton size="medium" color="primary">Details</DsButton>
                                                     </Link>
                                                 </td>
                                             </tr>
