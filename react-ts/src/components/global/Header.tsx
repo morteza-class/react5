@@ -1,10 +1,11 @@
-import { LoaderCircle, LucideLogOut, LucideMoon, LucideSun } from "lucide-react";
+import { LucideLogOut, LucideMoon, LucideSun } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, NavLink, useNavigate } from "react-router";
 import { DUMMY_BASE_URL } from "../../constants";
 import { useAuthStore } from "../../stores/auth.store";
 import { useGlobalStore } from "../../stores/global.store";
+import MainLoading from "./MainLoading";
 
 
 const Header = () => {
@@ -23,7 +24,7 @@ const Header = () => {
 		{ title: 'Home', link: '/app/home' },
 		{ title: 'About Us', link: '/app/about-us' },
 		{ title: 'Contact Us', link: '/app/contact-us' },
-		{ title: 'Todo List', link: '/app/todo-list' },
+		// { title: 'Todo List', link: '/app/todo-list' },
 		{ title: 'Posts', link: '/app/posts' },
 		{ title: 'Drop Drilling', link: '/app/drop-drilling' },
 		{ title: 'Test Context', link: '/app/test-context' },
@@ -107,13 +108,7 @@ const Header = () => {
 				</nav>
 			</header>
 
-			{
-				mainLoading &&
-				<div className="w-screen h-screen fixed top-0 right-0 bg-slate-700 text-white text-3xl flex gap-3 flex-col justify-center items-center">
-					<LoaderCircle size={50} className="animate-spin" />
-					Please Wait A Moment ...
-				</div>
-			}
+			{mainLoading && <MainLoading />}
 
 
 		</>

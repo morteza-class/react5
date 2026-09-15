@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import type { theme } from "../types/general";
+import type { Theme } from "../types/general";
 
 export type GlobalContextType = {
-    theme: theme,
+    theme: Theme,
     toggleTheme?: () => void
 }
 

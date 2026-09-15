@@ -9,24 +9,24 @@ import top100Films from './data/movies';
 const MuiPage = () => {
 
 
-    return (
-        <MuiThemeProvider>
-            <PageHeader text="MUI Components" />
+	return (
+		<MuiThemeProvider>
+			<PageHeader text="MUI Components" />
 
-            <div className="flex gap-4">
-                <Button variant="contained" color='error' startIcon={<LucideCheck />} loadingIndicator >Hello world</Button>
+			<div className="flex gap-4">
+				<Button variant="contained" color='error' startIcon={<LucideCheck />} loadingIndicator >Hello world</Button>
 
-                <Autocomplete
-                    disablePortal
-                    options={top100Films}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="Movie" />}
-                />
+				<Autocomplete
+					disablePortal
+					options={top100Films}
+					sx={{ width: 300 }}
+					renderInput={(params) => <TextField {...params} label="Movie" />}
+				/>
 
-            </div>
-        </MuiThemeProvider>
+			</div>
+		</MuiThemeProvider>
 
-    )
+	)
 };
 
 export default MuiPage;
