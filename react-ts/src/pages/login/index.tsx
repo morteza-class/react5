@@ -70,14 +70,14 @@ const Login = () => {
                         type="password"
                         placeholder='Enter Passweord'
                         className='w-full border border-gray-400 bg-gray-800 px-3 py-2 text-lg rounded-md'
-                        {...register('password', {required: true})}
+                        {...register('password', { required: true })}
                     />
                 </div>
 
                 <div className="flex gap-4 mt-6">
-                    <DsButton type="submit" color="blue" size="lg" text="Login To App" isLoading={isPending} />
+                    <DsButton type="submit" color="primary" variant="contained" size="large" loading={isPending}>Login To App</DsButton>
                     <Link to="/recover-password">
-                        <DsButton color="gray" size="lg" text="Recover Pasword" isDisabled={isPending} />
+                        <DsButton color="inherit" variant="contained" size="large" disabled={isPending}>Recover Pasword</DsButton>
                     </Link>
                 </div>
 
