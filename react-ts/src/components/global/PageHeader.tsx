@@ -28,7 +28,7 @@ const PageHeader: FC<PropTypes> = ({ text, element, backRoute, showBack = false 
             <DsTypography element={element ? element : 'h1'} className="text-3xl font-bold mb-4">{text}</DsTypography>
             {
                 showBack &&
-                <DsButton color="blue" text="Back" icon={<LucideArrowLeft />} size="lg" onClick={back} />
+                <DsButton color="primary" startIcon={<LucideArrowLeft />} size="large" onClick={back}>Back</DsButton>
             }
         </div>
     )
