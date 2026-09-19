@@ -1,6 +1,6 @@
 
-import { DataGrid, type GridColDef } from '@mui/x-data-grid';
-import { useQuery } from "@tanstack/react-query";
+import { DataGrid, type GridColDef, type GridPaginationModel } from '@mui/x-data-grid';
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { LucideEye, LucidePencil, LucideRefreshCcw, LucideTrash } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import DsButton from "../../components/design-system/DsButton";
@@ -8,15 +8,22 @@ import PageHeader from "../../components/global/PageHeader";
 import { getPostsApi } from "../../services/posts-service";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
+import { useState } from 'react';
 
 
 const Posts = () => {
 
     const navigate = useNavigate();
 
+    const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
+        page: 0,
+        pageSize: 10
+    });
+
     const { data, isLoading, refetch, isFetching } = useQuery({
-        queryKey: ['posts-list'],
-        queryFn: () => getPostsApi()
+        queryKey: ['posts-list', paginationModel.page, paginationModel.pageSize],
+        queryFn: () => getPostsApi({ page: paginationModel.page, pageSize: paginationModel.pageSize }),
+        placeholderData: keepPreviousData
     });
 
     const columns: GridColDef[] = [
@@ -36,7 +43,7 @@ const Posts = () => {
                     console.log(action)
                     switch (action) {
                         case 'show': navigate(`/app/posts/${params.id}`);
-                        break;
+                            break;
                     }
                 }
 
@@ -65,7 +72,16 @@ const Posts = () => {
                 </div>
             </div>
 
-            <DataGrid rows={data?.posts} columns={columns} loading={isLoading || isFetching} />
+            <DataGrid
+                rows={data?.posts}
+                columns={columns}
+                paginationMode='server'
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+                rowCount={data?.total ?? 0}
+                pageSizeOptions={[5, 10, 20, 50, 100]}
+                loading={isLoading || isFetching}
+            />
         </>
 
     )

@@ -3,9 +3,9 @@ import type { CreatePostForm, Post, PostsResponse } from "../types/posts";
 
 
 // get posts list
-export const getPostsApi = async (): Promise<PostsResponse> => {
+export const getPostsApi = async ({ page, pageSize }: { page: number, pageSize: number }): Promise<PostsResponse> => {
 
-    const response = await fetch(`${DUMMY_BASE_URL}/posts`);
+    const response = await fetch(`${DUMMY_BASE_URL}/posts?limit=${pageSize}&skip=${page * pageSize}`);
 
     if (!response.ok) {
         throw new Error('Get posts failed')
