@@ -5,7 +5,7 @@ const AppLayout = () => {
     return (
         <>
             <Header />
-            <main className='bg-gray-200 dark:bg-slate-900 text-gray-200 min-h-screen p-8 pt-20'>
+            <main className='bg-gray-200 dark:bg-slate-900 min-h-screen p-8 pt-20'>
                 <Outlet />
             </main>
         </>

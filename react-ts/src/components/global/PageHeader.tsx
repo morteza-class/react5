@@ -25,10 +25,10 @@ const PageHeader: FC<PropTypes> = ({ text, element, backRoute, showBack = false 
 
     return (
         <div className="flex justify-between items-center">
-            <DsTypography element={element ? element : 'h1'} className="text-3xl font-bold mb-4">{text}</DsTypography>
+            <DsTypography element={element ? element : 'h1'} className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-200">{text}</DsTypography>
             {
                 showBack &&
-                <DsButton color="blue" text="Back" icon={<LucideArrowLeft />} size="lg" onClick={back} />
+                <DsButton color="primary" startIcon={<LucideArrowLeft />} size="large" onClick={back}>Back</DsButton>
             }
         </div>
     )

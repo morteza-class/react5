@@ -45,35 +45,35 @@ const CreatePost = () => {
 
         <form className="bg-slate-800 p-8 rounded-lg mx-auto w-1/3 mt-4" onSubmit={handleSubmit(onCreatePost)}>
             <div className='mb-4'>
-                <label className='flex justify-between items-center text-lg mb-1'>
+                <label className='flex justify-between items-center text-lg mb-1 text-gray-200 dark:text-gray-200'>
                     Title
                     {errors.title && <span className="text-red-500">{errors.title.message}</span>}
                 </label>
                 <input
                     type="text"
                     placeholder='Enter Post Title'
-                    className='w-full border border-gray-400 bg-gray-800 px-3 py-2 text-lg rounded-md'
+                    className='w-full border border-gray-400 bg-gray-800 px-3 py-2 text-lg rounded-md text-gray-300 dark:text-gray-300'
                     {...register('title', { required: 'Post title is required' })}
                 />
             </div>
 
             <div className='mb-4'>
-                <label className='flex justify-between items-center text-lg mb-1'>
+                <label className='flex justify-between items-center text-lg mb-1 text-gray-200 dark:text-gray-200'>
                     Body
                     {errors.body && <span className="text-red-500">{errors.body.message}</span>}
                 </label>
                 <textarea
                     placeholder='Enter Post Body'
-                    className='w-full border border-gray-400 bg-gray-800 px-3 py-2 text-lg rounded-md'
+                    className='w-full border border-gray-400 bg-gray-800 px-3 py-2 text-lg rounded-md text-gray-300 dark:text-gray-300'
                     rows={5}
-                    {...register('body', { required: 'Post body is required', minLength: {value: 10, message: 'At Least 10 Characters'} })}
+                    {...register('body', { required: 'Post body is required', minLength: { value: 10, message: 'At Least 10 Characters' } })}
                 ></textarea>
             </div>
 
             <div className="flex gap-4">
-                <DsButton type="submit" color="blue" size="lg" text="Create" isLoading={isPending} />
+                <DsButton type="submit" color="primary" size="large" loading={isPending}>Create</DsButton>
                 <Link to="/app/posts">
-                    <DsButton color="gray" size="lg" text="Cancel" isDisabled={isPending} />
+                    <DsButton color="inherit" size="large" disabled={isPending}>Cancel</DsButton>
                 </Link>
             </div>
 

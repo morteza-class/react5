@@ -72,7 +72,7 @@ const Header = () => {
 
 	return (
 		<>
-			<header className="bg-gray-600 dark:bg-slate-800 p-4 fixed top-0 right-0 left-0">
+			<header className="bg-gray-600 dark:bg-slate-800 p-4 fixed top-0 right-0 left-0 z-10">
 				<nav className="flex justify-between px-4">
 					<ul className="flex justify-center gap-12">
 						{

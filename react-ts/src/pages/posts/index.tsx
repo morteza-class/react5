@@ -1,78 +1,95 @@
 
-import { useQuery } from "@tanstack/react-query";
-import { LucideRefreshCcw } from "lucide-react";
-import { Link } from "react-router";
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import { DataGrid, type GridColDef, type GridPaginationModel } from '@mui/x-data-grid';
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { LucideEye, LucidePencil, LucideRefreshCcw, LucideTrash } from "lucide-react";
+import { useState } from 'react';
+import { Link, useNavigate } from "react-router";
 import DsButton from "../../components/design-system/DsButton";
-import Loading from "../../components/global/Loading";
 import PageHeader from "../../components/global/PageHeader";
 import { getPostsApi } from "../../services/posts-service";
 
 const Posts = () => {
 
-    const { data, isLoading, refetch, isFetching } = useQuery({
-        queryKey: ['posts-list'],
-        queryFn: () => getPostsApi()
-    });
+	const navigate = useNavigate();
 
+	const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
+		page: 0,
+		pageSize: 10
+	});
 
-    return (
-        <>
-            <div className="flex justify-between items-center mb-2">
-                <PageHeader text="Posts Page" />
+	const { data, isLoading, refetch, isFetching } = useQuery({
+		queryKey: ['posts-list', paginationModel.page, paginationModel.pageSize],
+		queryFn: () => getPostsApi({ page: paginationModel.page, pageSize: paginationModel.pageSize }),
+		placeholderData: keepPreviousData
+	});
 
-                <div className="flex items-center gap-2">
-                    <DsButton startIcon={<LucideRefreshCcw />} onClick={() => refetch()} loading={!isLoading && isFetching} tooltip="Refetch" /> 
-                    <Link to="create">
-                        <DsButton color="primary" size="large">Create Post</DsButton>
-                    </Link>
-                </div>
-            </div>
+	const columns: GridColDef[] = [
+		{ field: 'id', headerName: 'Row', width: 80, headerClassName: 'text-lg' },
+		{ field: 'title', headerName: 'Title', width: 300, headerClassName: 'text-lg' },
+		{ field: 'userId', headerName: 'User', headerClassName: 'text-lg' },
+		{ field: 'body', headerName: 'Post Text', width: 400, headerClassName: 'text-lg' },
+		{ field: 'views', headerName: 'Views', headerClassName: 'text-lg' },
+		{
+			field: 'tags',
+			headerName: 'Tags',
+			width: 200,
+			headerClassName: 'text-lg',
+			renderCell: (params) => {
+				return (params.value.join(', '))
+			}
+		},
+		{
+			field: 'action',
+			headerName: 'Action',
+			width: 200,
+			headerClassName: 'text-lg',
+			renderCell: (params) => {
 
-            {
-                isLoading ?
-                    <Loading />
-                    :
-                    <div className="border border-gray-500 h-[80vh] overflow-auto">
-                        <table>
-                            <thead className="bg-slate-700 sticky top-0">
-                                <tr>
-                                    <th className="px-2 py-4">Row</th>
-                                    <th className="px-2 py-4">Title</th>
-                                    <th className="px-2 py-4">User</th>
-                                    <th className="px-2 py-4">Body</th>
-                                    <th className="px-2 py-4">Views</th>
-                                    <th className="px-2 py-4 min-w-[250px]">Tags</th>
-                                    <th className="px-2 py-4">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    data?.posts.map((post, index) => {
-                                        return (
-                                            <tr key={post.id} className="border border-gray-600 even:bg-gray-800 hover:bg-gray-700">
-                                                <td className="p-2 text-lg">{index + 1}</td>
-                                                <td className="p-2 text-lg">{post.title}</td>
-                                                <td className="p-2 text-lg">{post.userId}</td>
-                                                <td className="p-2 text-lg">{post.body}</td>
-                                                <td className="p-2 text-lg">{post.views}</td>
-                                                <td className="p-2 text-lg min-w-[250px]">{post.tags.join(', ')}</td>
-                                                <td className="p-2 text-lg">
-                                                    <Link to={`/app/posts/${post.id}`}>
-                                                        <DsButton size="medium" color="primary">Details</DsButton>
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
+				const onClick = (type: 'delete' | 'edit' | 'show') => {
+					switch (type) {
+						case 'show': navigate(`/app/posts/${params.id}`)
+					}
+				}
 
-                            </tbody>
-                        </table>
-                    </div>
-            }
-        </>
+				return (
+					<ButtonGroup variant="outlined" size="small">
+						<Button color="error" className="h-9" onClick={() => onClick('delete')}><LucideTrash size={16} /></Button>
+						<Button color="info" className="h-9" onClick={() => onClick('edit')}><LucidePencil size={16} /></Button>
+						<Button color="inherit" className="h-9" onClick={() => onClick('show')}><LucideEye size={16} /></Button>
+					</ButtonGroup>
+				)
+			}
+		},
+	];
 
-    )
+	return (
+		<>
+			<div className="flex justify-between items-center mb-2">
+				<PageHeader text="Posts Page" />
+
+				<div className="flex items-center gap-2">
+					<DsButton startIcon={<LucideRefreshCcw />} onClick={() => refetch()} loading={!isLoading && isFetching} tooltip="Refetch" />
+					<Link to="create">
+						<DsButton color="primary" size="large">Create Post</DsButton>
+					</Link>
+				</div>
+			</div>
+
+			<DataGrid
+				columns={columns}
+				rows={data?.posts}
+				paginationMode="server"
+				paginationModel={paginationModel}
+				onPaginationModelChange={setPaginationModel}
+				rowCount={data?.total ?? 0}
+				pageSizeOptions={[5, 10, 20, 50]}
+				loading={isFetching}
+			/>
+		</>
+
+	)
 }
 
 export default Posts
